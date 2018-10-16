@@ -1,16 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {Injector, NgModule} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {createCustomElement} from '@angular/elements';
 
-import { AppComponent } from './app.component';
+import {ButtonComponent} from '../components/button/button.component';
+import {ButtonModule} from '../components/button/button.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
+    ButtonModule,
     BrowserModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [ButtonComponent]
 })
-export class AppModule { }
+export class IgniteModule {
+  constructor(private injector: Injector) {
+  }
+
+  ngDoBootstrap() {
+    const buttonCE = createCustomElement(ButtonComponent, {injector: this.injector});
+    customElements.define('ignite-button', buttonCE);
+  }
+}
